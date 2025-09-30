@@ -42,6 +42,28 @@ const adminOnlyMiddleware = (req, res, next) => {
   next();
 };
 
+const loggingMiddleware = (req, res, next) => {
+  // Отримуємо поточний час, HTTP метод та URL запиту
+  const timestamp = new Date().toISOString();
+  const method = req.method;
+  const url = req.url;
+
+  // Виводимо інформацію в консоль
+  console.log(`[${timestamp}] ${method} ${url}`);
+
+  // ВАЖЛИВО: передаємо управління наступному middleware
+  // Якщо не викликати next(), обробка запиту "зависне" на цьому місці
+
+  next();
+};
+
+app.use(express.json());
+
+// Глобально застосовуємо middleware для логування
+// Цей рядок має бути ПЕРЕД усіма маршрутами
+
+app.use(loggingMiddleware);
+
 // --- МАРШРУТИ ДЛЯ РЕСУРСІВ --
 
 // Маршрут для отримання списку всіх документів
