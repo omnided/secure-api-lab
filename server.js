@@ -72,11 +72,41 @@ app.get('/documents', authMiddleware, (req, res) => {
 });
 
 app.post('/documents', authMiddleware, (req, res) => {
-  const newDocument = req.body;
-  newDocument.id = Date.now();
+  const { title, content } = req.body;
+
+  // Перевірка, чи передані всі необхідні поля
+
+  if (!title || !content) {
+    return res.status(400).json({ message: 'Bad Request. Fields "title" and "content" are required.' });
+  }
+
+  const newDocument = {
+    id: Date.now(),
+    title,
+    content,
+  };
+
   documents.push(newDocument);
   res.status(201).json(newDocument);
 });
+
+app.delete('/documents/:id', authMiddleware, (req, res) => {
+    // Отримуємо id з параметрів маршруту
+    const documentId = parseInt(req.params.id);
+    const documentIndex = documents.findIndex(doc => doc.id === documentId);
+
+    // Якщо документ з таким id не знайдено
+    if (documentIndex === -1) {
+        return res.status(404).json({ message: 'Document not found' });
+    }
+
+    // Видаляємо документ з масиву
+    documents.splice(documentIndex, 1);
+
+    // Відповідаємо статусом 204 No Content, тіло відповіді буде порожнім
+    res.status(204).send();
+});
+
 
 // Маршрут для отримання списку всіх співробітників
 app.get('/employees', authMiddleware, adminOnlyMiddleware, (req, res) => {
