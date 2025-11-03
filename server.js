@@ -4,6 +4,9 @@ const { users, documents, employees } = require('./data');
 const app = express();
 const PORT = 3000;
 
+app.get('/', (req, res) => {
+  res.send('Hello World! The server is running.');
+});
 const authMiddleware = (req, res, next) => {
   // Отримуємо дані для входу з заголовків запиту
   const login = req.headers['x-login'];
