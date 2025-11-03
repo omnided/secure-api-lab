@@ -19,14 +19,14 @@ npm test
 ## Таблиця ендпоїнтов API
 | HTTP-метод та URL | Опис ендпоінту | Заголовки аутентифікації | Приклад тіла запиту | Коди відповіді |
 |-------------------|----------------|--------------------------|---------------------|----------------|
-| GET /documents | Отримання списку документів | - | - | 481 Unauthorized - Спроба доступу без аутентифікації |
-| GET /employees | Отримання списку співробітників | X-Login: user1<br>X-Password: password123 | - | 483 Forbidden - Спроба доступу до адмін-ресурсу з роллю 'user' |
-| GET /documents | Отримання списку документів | X-Login: user1<br>X-Password: password123 | - | 288 OK - Успішне отримання даних з роллю 'user' |
-| GET /employees | Отримання списку співробітників | X-Login: admin1<br>X-Password: password123 | - | 288 OK - Успішне отримання даних з роллю 'admin' |
-| POST /documents | Створення нового документа | X-Login: user1<br>X-Password: password123 | `{"title": "Test Doc", "content": "..."}` | 281 Created - Успішне створення ресурсу |
-| POST /documents | Створення нового документа | X-Login: user1<br>X-Password: password123 | `{"content": "..."}` | 488 Bad Request - Помилка валідації (відсутнє поле title) |
-| DELETE /documents/1 | Видалення документа | X-Login: admin1<br>X-Password: password123 | - | 284 No Content - Успішне видалення |
-| GET /non-existent | Доступ до неіснуючого ресурсу | X-Login: admin1<br>X-Password: password123 | - | 484 Not Found - Звернення до неіснуючого маршруту |
+| GET /documents | Отримання списку документів | - | - | 401 Unauthorized - Запит не підтверджено |
+| GET /employees | Отримання списку співробітників | X-Login: user1<br>X-Password: password123 | - | 403 Forbidden - Доступ до ресурсу заборонений |
+| GET /documents | Отримання списку документів | X-Login: user1<br>X-Password: password123 | - | 200 OK - Успішне отримання даних з роллю 'user' |
+| GET /employees | Отримання списку співробітників | X-Login: admin1<br>X-Password: password123 | - | 200 OK - Успішне отримання даних з роллю 'admin' |
+| POST /documents | Створення нового документа | X-Login: user1<br>X-Password: password123 | `{"title": "Test Doc", "content": "..."}` | 201 Created - Успішне створення ресурсу |
+| POST /documents | Створення нового документа | X-Login: user1<br>X-Password: password123 | `{"content": "..."}` | 400 Bad Request - Помилка валідації (відсутнє поле title) |
+| DELETE /documents/1 | Видалення документа | X-Login: admin1<br>X-Password: password123 | - | 204 No Content - Успішне видалення |
+| GET /non-existent | Доступ до неіснуючого ресурсу | X-Login: admin1<br>X-Password: password123 | - | 404 Not Found - Звернення до неіснуючого маршруту |
 
 ## Публічний репозиторій
 Проект доступний за посиланням: https://github.com/omnided/secure-api-lab
